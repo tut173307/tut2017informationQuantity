@@ -19,20 +19,28 @@ public class Frequencer implements FrequencerInterface{
     // Code to Test, *warning: This code  contains intentional problem*
     byte [] myTarget;
     byte [] mySpace;
+    
+    //検索するデータを設定
     public void setTarget(byte [] target) { myTarget = target;}
-    public void setSpace(byte []space) { mySpace = space; }
+    
+    //検索対象となるデータを設定
+    public void setSpace(byte []space) { mySpace = space;}
+    
+    // TARGETが設定されていないか、TARGETの長さがゼロの場合は-1を返します
+    //それ以外の場合は、SPACEが設定されていないか、スペースの長さがゼロの場合は0を返します。
+    //それ以外の場合は、SPACEのTAGETの頻度を取得します。
     public int frequency() {
-	int targetLength = myTarget.length;
-	int spaceLength = mySpace.length;
-	int count = 0;
-	for(int start = 0; start<spaceLength; start++) { // Is it OK?
-	    boolean abort = false;
-	    for(int i = 0; i<targetLength; i++) {
-		if(myTarget[i] != mySpace[start+i]) { abort = true; break; }
-	    }
-	    if(abort == false) { count++; }
-	}
-	return count;
+        int targetLength = myTarget.length;
+        int spaceLength = mySpace.length;
+        int count = 0;
+        for(int start = 0; start<spaceLength; start++) { // Is it OK?
+            boolean abort = false;
+            for(int i = 0; i<targetLength; i++) {
+                if(myTarget[i] != mySpace[start+i]) { abort = true; break; }
+            }
+            if(abort == false) { count++; }
+        }
+        return count;
     }
 
     // I know that here is a potential problem in the declaration.
