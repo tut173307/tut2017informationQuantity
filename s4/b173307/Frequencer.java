@@ -26,6 +26,7 @@ public class Frequencer implements FrequencerInterface{
     //検索対象となるデータを設定
     public void setSpace(byte []space) { mySpace = space;}
     
+    
     // TARGETが設定されていないか、TARGETの長さがゼロの場合は-1を返します
     //それ以外の場合は、SPACEが設定されていないか、スペースの長さがゼロの場合は0を返します。
     //それ以外の場合は、SPACEのTAGETの頻度を取得します。
