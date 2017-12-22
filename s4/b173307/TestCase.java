@@ -47,7 +47,8 @@ public class TestCase {
 	    System.out.println("Exception occurred: STOP");
 	}
 
-		try {
+	//Not set Space
+	try {
 	    FrequencerInterface  myObject;
 	    int freq;
 	    System.out.println("checking s4.b173307.Frequencer");
@@ -55,12 +56,13 @@ public class TestCase {
 	    myObject.setTarget("H".getBytes());
 	    freq = myObject.frequency();
 	    System.out.print("\"H\" in \"\" appears "+freq+" times. ");
-	    if(-1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+	    if(0 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
 	}
 	catch(Exception e) {
 	    System.out.println("Exception occurred: STOP");
 	}
 
+	//Not set Target
 	try {
 	    FrequencerInterface  myObject;
 	    int freq;
@@ -75,6 +77,7 @@ public class TestCase {
 	    System.out.println("Exception occurred: STOP");
 	}
 
+	//Spacelength is 0
 	try {
 	    FrequencerInterface  myObject;
 	    int freq;
@@ -84,12 +87,13 @@ public class TestCase {
 	    myObject.setTarget("H".getBytes());
 	    freq = myObject.frequency();
 	    System.out.print("\"H\" in \"\" appears "+freq+" times. ");
-	    if(-1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+	    if(0 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
 	}
 	catch(Exception e) {
 	    System.out.println("Exception occurred: STOP");
 	}
 
+	//Targetlength is 0
 	try {
 	    FrequencerInterface  myObject;
 	    int freq;
@@ -104,7 +108,6 @@ public class TestCase {
 	catch(Exception e) {
 	    System.out.println("Exception occurred: STOP");
 	}
-
 
 	try {
 	    InformationEstimatorInterface myObject;
@@ -129,7 +132,8 @@ public class TestCase {
 	    System.out.println("Exception occurred: STOP");
 	}
 
-		try {
+	//not set Target	
+	try {
 	    InformationEstimatorInterface myObject;
 	    double value;
 	    System.out.println("checking s4.b173307.InformationEstimator");
@@ -137,17 +141,12 @@ public class TestCase {
 	    myObject.setSpace("3210321001230123".getBytes());
 	    value = myObject.estimation();
 	    System.out.println(">0 "+value);
-	    value = myObject.estimation();
-	    System.out.println(">01 "+value);
-	    value = myObject.estimation();
-	    System.out.println(">0123 "+value);
-	    value = myObject.estimation();
-	    System.out.println(">00 "+value);
-	}
-	catch(Exception e) {
+	    if(0.0 == value) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+	}catch(Exception e) {
 	    System.out.println("Exception occurred: STOP");
 	}
 
+	//Targetlenght is 0
 	try {
 	    InformationEstimatorInterface myObject;
 	    double value;
@@ -157,17 +156,38 @@ public class TestCase {
 	    myObject.setTarget("".getBytes());
 	    value = myObject.estimation();
 	    System.out.println(">0 "+value);
-	    myObject.setTarget("".getBytes());
-	    value = myObject.estimation();
-	    System.out.println(">01 "+value);
-	    myObject.setTarget("".getBytes());
-	    value = myObject.estimation();
-	    System.out.println(">0123 "+value);
-	    myObject.setTarget("".getBytes());
-	    value = myObject.estimation();
-	    System.out.println(">00 "+value);
+		if(0.0 == value) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+	}catch(Exception e) {
+	    System.out.println("Exception occurred: STOP");
 	}
-	catch(Exception e) {
+
+	//Not set Space
+	try {
+	    InformationEstimatorInterface myObject;
+	    double value;
+	    System.out.println("checking s4.b173307.InformationEstimator");
+	    myObject = new s4.b173307.InformationEstimator();
+	    //myObject.setSpace("3210321001230123".getBytes());
+	    myObject.setTarget("0".getBytes());
+	    value = myObject.estimation();
+	    System.out.println(">0 "+value);
+		if(Double.MAX_VALUE == value) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+	}catch(Exception e) {
+	    System.out.println("Exception occurred: STOP");
+	}
+
+	//Not set Space
+	try {
+	    InformationEstimatorInterface myObject;
+	    double value;
+	    System.out.println("checking s4.b173307.InformationEstimator");
+	    myObject = new s4.b173307.InformationEstimator();
+	    myObject.setSpace("".getBytes());
+	    myObject.setTarget("0".getBytes());
+	    value = myObject.estimation();
+	    System.out.println(">0 "+value);
+		if(Double.MAX_VALUE == value) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+	}catch(Exception e) {
 	    System.out.println("Exception occurred: STOP");
 	}
 
