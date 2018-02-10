@@ -2,6 +2,7 @@ package s4.b173307; // Please modify to s4.Bnnnnnn, where nnnnnn is your student
 import java.lang.*;
 import s4.specification.*;
 
+
 /* What is imported from s4.specification
 package s4.specification;
 public interface InformationEstimatorInterface{
