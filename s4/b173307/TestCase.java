@@ -20,6 +20,7 @@ interface FrequencerInterface {     // This interface provides the design for fr
 package s4.specification;
 public interface InformationEstimatorInterface{
     void setTarget(byte target[]); // set the data for computing the information quantities
+	
     void setSpace(byte space[]); // set data for sample space to computer probability
     double estimation(); // It returns 0.0 when the target is not set or Target's length is zero;
 // It returns Double.MAX_VALUE, when the true value is infinite, or space is not set.
@@ -37,7 +38,7 @@ public class TestCase {
 	    int freq;
 	    System.out.println("checking s4.b173307.Frequencer");
 	    myObject = new s4.b173307.Frequencer();
-	    myObject.setSpace("Hi Ho Hi Ho".getBytes());
+	    myObject.setSpace("Hi Ho Hi HoHi Ho Hi Ho".getBytes());
 	    myObject.setTarget("Ho".getBytes());
 	    freq = myObject.frequency();
 	    System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
@@ -47,14 +48,13 @@ public class TestCase {
 	    System.out.println("Exception occurred: STOP");
 	}
 
-	//Not set Space
 	try {
 	    FrequencerInterface  myObject;
 	    int freq;
 	    System.out.println("checking s4.b173307.Frequencer");
 	    myObject = new s4.b173307.Frequencer();
-		myObject.setSpace("Hi Ho".getBytes());
-	    myObject.setTarget("H".getBytes());
+		myObject.setSpace("HH".getBytes());
+	    myObject.setTarget("HHH".getBytes());
 	    freq = myObject.frequency();
 	    System.out.print("\"H\" in \"\" appears "+freq+" times. ");
 	    if(0 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }

@@ -2,85 +2,6 @@ package s4.b173307; // Please modify to s4.Bnnnnnn, where nnnnnn is your student
 import java.lang.*;
 import s4.specification.*;
 
-/*
-interface FrequencerInterface {     // This interface provides the design for frequency counter.
-    void setTarget(byte[]  target); // set the data to search.
-    void setSpace(byte[]  space);  // set the data to be searched target from.
-    int frequency(); //It return -1, when TARGET is not set or TARGET's length is zero
-                    //Otherwise, it return 0, when SPACE is not set or Space's length is zero
-                    //Otherwise, get the frequency of TAGET in SPACE
-    int subByteFrequency(int start, int end);
-    // get the frequency of subByte of taget, i.e target[start], taget[start+1], ... , target[end-1].
-    // For the incorrect value of START or END, the behavior is undefined.
-*/
-
-/*
-public class Frequencer implements FrequencerInterface{
-    // Code to Test, *warning: This code  contains intentional problem*
-    byte [] myTarget;
-    byte [] mySpace;
-    
-    public void setTarget(byte [] target) { myTarget = target;}
-    public void setSpace(byte []space) { mySpace = space; }
-    
-    public int frequency() {
-        // 各値が設定されていない場合
-        if(myTarget == null) {
-            return -1;
-        }
-        if(mySpace == null) {
-            return 0;
-        }
-        
-        int targetLength = myTarget.length;
-        int spaceLength = mySpace.length;
-        int count = 0;
-        
-        // TAGETの長さが0の場合
-        if(targetLength == 0) {
-            return -1;
-        }
-        
-        for(int start = 0; start <= (spaceLength - targetLength); start++) { // Is it OK?
-            boolean abort = false;
-            for(int i = 0; i < targetLength; i++) {
-                if(myTarget[i] != mySpace[start+i]) {
-                    abort = true;
-                    break;
-                }
-            }
-            if(abort == false) {
-                count++;
-                start += (targetLength - 1);
-            }
-        }
-        return count;
-    }
-
-    // I know that here is a potential problem in the declaration.
-    public int subByteFrequency(int start, int length) { 
-	// Not yet, but it is not currently used by anyone.
-	return -1;
-    }
-
-    public static void main(String[] args) {
-	Frequencer myObject;
-	int freq;
-	try {
-	    System.out.println("checking my Frequencer");
-	    myObject = new Frequencer();
-	    myObject.setSpace("Hi Ho Hi Ho".getBytes());
-	    myObject.setTarget("H".getBytes());
-	    freq = myObject.frequency();
-	    System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
-	    if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-	}
-	catch(Exception e) {
-	    System.out.println("Exception occurred: STOP");
-	}
-    }
-}
-*/
 //演習3&4
 public class Frequencer implements FrequencerInterface{
     // Code to start with: This code is not working, but good start point to work.
@@ -117,42 +38,6 @@ public class Frequencer implements FrequencerInterface{
         // "Hi" < "Ho" ; if head is same, compare the next element
         // "Ho" < "Ho " ; if the prefix is identical, longer string is big
         
-        /*
-         int si = suffixArray[i];
-         int sj = suffixArray[j];
-         
-         //比較用の配列を作成する
-         byte compare1[] = new byte[mySpace.length-si];
-         int count = 0;
-         for(int x = si;x<mySpace.length;x++){
-         compare1[count] = mySpace[x];
-         count++;
-         }
-         
-         byte compare2[] = new byte[mySpace.length-sj];
-         count = 0;
-         for(int y = sj;y<mySpace.length;y++){
-         compare2[count] = mySpace[y];
-         count++;
-         }
-         
-         count =0;
-         //配列を比較する
-         while(true){
-         if(compare1[count]==compare2[count]){
-         if(count+1 > compare1.length && count+1 > compare1.length){//1と2が同じなら0を返す
-         return  0;
-         }
-         }
-         else if(compare1[count]>compare2[count]){//iがjより大きかったら1を返す
-         return 1;
-         }else{//それ以外は-1を返す
-         return -1;
-         }
-         count ++;
-         }
-         */
-        
         // 指導書より
         int si = suffixArray[i];
         int sj = suffixArray[j];
@@ -169,8 +54,67 @@ public class Frequencer implements FrequencerInterface{
         if(si > sj) return -1;
         return 0;
     }
+
+    //ピボットのIDを選ぶ関数
+    int choose_pivod_id(int leftID, int rightID){
+        return leftID;
+    }
+
+    //pivotがある場所のIDを返す関数
+    int partition(int leftID, int rightID, int pivotID){//System.out.print("ここまでうごいた");
+
+        //いったんpivotを右端に保存する
+        int tmp = suffixArray[pivotID];
+        suffixArray[pivotID] = suffixArray[rightID];
+        suffixArray[rightID] = tmp;
+
+        //左から見ていき,pivot以下のデータをpと入れ替える
+        int p = leftID;
+        for(int i=leftID; i<=rightID-1; i++){
+            int tmp2;
+            int flag = suffixCompare(rightID,i);
+            if(flag == 1 || flag == 0){
+                tmp2 = suffixArray[i];
+                suffixArray[i] = suffixArray[p];
+                suffixArray[p] = tmp2;
+                p++;
+            }
+        }
+
+        //保存しておいたpivodをpの位置へ移動
+        int tmp3 = suffixArray[p];
+        suffixArray[p] = suffixArray[rightID];
+        suffixArray[rightID] = tmp3; 
+        
+        return p;
+
+    }
+
+    //ソート部分
+    void QSort(int leftID ,int rightID){
+
+        //終了条件
+        if(leftID >= rightID){
+            return;
+        }
+
+        //ピボットのIDを選ぶ
+        int pivotID = choose_pivod_id(leftID, rightID);
+
+        //pivotより大きいグループと小さいグループに分ける
+        int p = partition(leftID, rightID, pivotID); 
+
+        //左側をクイックソート
+        QSort(leftID, p-1);
+
+        //右側をクイックソート
+        QSort(p+1, rightID);
+
+    }
     
     public void setSpace(byte []space) {
+
+        //mySpaceの生成を行う
         mySpace = space;
         if(mySpace.length>0) spaceReady = true;
         suffixArray = new int[space.length];
@@ -178,8 +122,12 @@ public class Frequencer implements FrequencerInterface{
         for(int k = 0; k< space.length; k++) {
             suffixArray[k] = k;
         }
-        // Sorting is not implmented yet.
-        // ここでバブルソートを実行
+        
+        //クイックソートによるソート
+        QSort(0, space.length-1);
+
+        // ここでバブルソートによるソート
+        /*
         for(int i = 0; i< space.length; i++){
             for(int j = i+1; j < space.length; j++){
                 int tmp;
@@ -191,8 +139,9 @@ public class Frequencer implements FrequencerInterface{
                 }
             }
         }
-        
-        printSuffixArray();
+        */
+            
+        //printSuffixArray();
         
         /* Example from "Hi Ho Hi Ho"
          0: Hi Ho
@@ -310,13 +259,15 @@ public class Frequencer implements FrequencerInterface{
             }
         }
         int first = subByteStartIndex(start,end);
-        int last1 = subByteEndIndex(start, end);
+        int last = subByteEndIndex(start, end);
         //inspection code
+        /*
         for(int k=start;k<end;k++) {
             System.out.write(myTarget[k]);
         }
-        System.out.printf(": first=%d last1=%d\n", first, last1);
-        return last1 - first;
+        System.out.printf(": first=%d last=%d\n", first, last);
+        */
+        return last - first;
     }
     
     public void setTarget(byte [] target) {
@@ -336,7 +287,7 @@ public class Frequencer implements FrequencerInterface{
         try {
             frequencerObject = new Frequencer();
             frequencerObject.setSpace("Hi Ho Hi Ho".getBytes());
-            frequencerObject.setTarget("H   o ".getBytes());
+            frequencerObject.setTarget("Ho ".getBytes());
             int result = frequencerObject.frequency();
             System.out.print("Freq = "+ result+" ");
             if(4 == result) {

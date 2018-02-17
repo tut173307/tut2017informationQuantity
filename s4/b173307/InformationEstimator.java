@@ -89,7 +89,7 @@ public class InformationEstimator implements InformationEstimatorInterface{
 	}
 	return prefixEstimation[myTarget.length];
 
-        /*
+    /*
 	boolean [] partition = new boolean[myTarget.length+1];
 	int np;
 	np = 1<<(myTarget.length-1);
